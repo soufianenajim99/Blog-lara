@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Models\Category;
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,8 +23,8 @@ Route::get('/', function () {
 Route::get('/home', function () {
     return view('home');
 });
-Route::get('/post/{post?}', function (Post $post) {
-    // $post = Post::findOrFail($id);
+Route::get('/post/{post?}', function ($post) {
+    $post = Post::findOrFail($post);
     return view('post.postPage',[
         'post'=> $post
     ]);
@@ -40,7 +41,8 @@ Route::get('/categories', function () {
         'categories'=> $categories
     ]);
 });
-Route::get('/category/{category?}', function (Category $category) {
+Route::get('/category/{id?}', function ($id) {
+    $category = Category::find($id);
     return view('categories.categoriePosts',[
         'posts'=>$category->Posts
     ]);
@@ -56,9 +58,22 @@ Route::middleware('auth')->group(function () {
 
 
 Route::get("/posts", function(){
-    $posts = Post::all();
+    $posts = Post::latest()->with('author','category')->get();
     return view("post.posts",[
         "posts"=> $posts,
+    ]);
+});
+Route::get("/users", function(){
+    $posts = User::all();
+    return view("users.index",[
+        "posts"=> $posts,
+    ]);
+});
+
+
+Route::get("/users/{author:username}", function(User $author){
+    return view("users.userPosts",[
+        "posts"=> $author->Posts,
     ]);
 });
 

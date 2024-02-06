@@ -20,6 +20,7 @@
              <a href="{{URL('home')}}">Home</a>
              <a href="{{URL('posts')}}">Posts</a>
              <a href="{{URL('categories')}}">Categories</a>
+             <a href="{{URL('users')}}">Users</a>
             </nav>
           
             <main class="h-full">
