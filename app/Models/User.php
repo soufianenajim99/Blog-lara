@@ -21,6 +21,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'userable_type',
+        'userable_id'
     ];
 
     /**
@@ -46,4 +48,9 @@ class User extends Authenticatable
     public function Posts(){
         return $this->hasMany(Post::class);
     }
+
+   public function userable(){
+    return $this->morphTo();
+   }
+
 }

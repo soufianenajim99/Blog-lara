@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use App\Models\Category;
 use App\Models\Post;
@@ -57,12 +58,7 @@ Route::middleware('auth')->group(function () {
 });
 
 
-Route::get("/posts", function(){
-    $posts = Post::latest()->with('author','category')->get();
-    return view("post.posts",[
-        "posts"=> $posts,
-    ]);
-});
+Route::get("/posts",[PostController::class,"index"]);
 Route::get("/users", function(){
     $posts = User::all();
     return view("users.index",[
